@@ -91,33 +91,31 @@ The VBA script included in this report can be utilized for this stock analysis o
         '2a) Create a for loop to initialize the tickerVolumes to zero.
         For zz = 0 To 11
             tickerVolumes(zz) = 0
+        Next zz
                 
-            '2b) Loop over all the rows in the spreadsheet.
-            For i = 2 To RowCount
+        '2b) Loop over all the rows in the spreadsheet.
+        For i = 2 To RowCount
     
-                '3a) Increase volume for current ticker
-                If Cells(i, 1).Value = tickers(tickerIndex) Then
-                    tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value
-                End If
+            '3a) Increase volume for current ticker
+            If Cells(i, 1).Value = tickers(tickerIndex) Then
+                tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value
+            End If
         
-                '3b) Check if the current row is the first row with the selected tickerIndex.
-                'If  Then
-                If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i - 1, 1).Value <> tickers(tickerIndex) Then
-                    tickerStartingPrices(tickerIndex) = Cells(i, 6).Value
-                End If
+            '3b) Check if the current row is the first row with the selected tickerIndex.
+            'If  Then
+            If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i - 1, 1).Value <> tickers(tickerIndex) Then
+                tickerStartingPrices(tickerIndex) = Cells(i, 6).Value
+            End If
         
-                '3c) check if the current row is the last row with the selected ticker
-                'If the next row’s ticker doesn’t match, increase the tickerIndex.
-                'If  Then
-                If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i + 1, 1).Value <> tickers(tickerIndex) Then
-                    tickerEndingPrices(tickerIndex) = Cells(i, 6).Value
-                End If
-            Next i
-            
-        '3d Increase the tickerIndex.
-        tickerIndex = tickerIndex + 1
-                
-    Next zz
+            '3c) check if the current row is the last row with the selected ticker
+            'If the next row’s ticker doesn’t match, increase the tickerIndex.
+            If Cells(i, 1).Value = tickers(tickerIndex) And Cells(i + 1, 1).Value <> tickers(tickerIndex) Then
+                tickerEndingPrices(tickerIndex) = Cells(i, 6).Value
+                '3d Increase the tickerIndex.
+                tickerIndex = tickerIndex + 1
+            End If
+
+        Next i
     ...
     ```  
     
@@ -168,13 +166,13 @@ The VBA script included in this report can be utilized for this stock analysis o
 The VBA code is rudimentary and would require further refactoring for use outside of this analysis. The bones of the script, however, are solid.  
 
 ### VBA Advantages
-The primary advantage to the script as it is currently coded is that the analysis loops through the dataset and gathers the relavent data for each ticker. Additional data could be gathered or calculated with a few lines of code. This advantage is a direct result of the first refactoring of the VBA code.  
+The primary advantage to the script as it is currently coded is that the analysis loops through the dataset and gathers the relavent data for each ticker. Additional data could be gathered or calculated with a few lines of code. This advantage is a direct result of the first refactoring of the VBA code. Additionally, the time for running the macro was reduced approximately 5x. This is not significant in this small dataset, but with a larger dataset, the time saved could be significant.  
 
 ### VBA Disadvantages
-Currently, the tickers are hard coded into the script. This is the primary detail that would need to be addressed in order to utilize this code for other stocks. A loop gathering unique tickers in each dataset would prove useful. Additionally, it would be useful to present the information gathered in a way that allows comparison by year - that is, to see multiple years side by side. One negative to this refactoring is that the work of refactoring took quite a while and did not result in a great reduction of analysis time, nor did it finish increasing the usability of the code. Further work is necessary before it would provide general usability.  
+Currently, the tickers are hard coded into the script. This is the primary detail that would need to be addressed in order to utilize this code for other stocks. A loop gathering unique tickers in each dataset would prove useful. Additionally, it would be useful to present the information gathered in a way that allows comparison by year - that is, to see multiple years side by side. One negative to this refactoring is that the work of refactoring took quite a while and did not result in a great reduction of analysis time (for this dataset), nor did it increase the usability of the code beyond this dataset. Further work is necessary before it would provide general usability.  
 
 The first version of this VBA code took 0.56 seconds for 2017 and 0.57 seconds for 2018.
 ![Imgur](https://i.imgur.com/jnQ1smx.png?1) ![Imgur](https://i.imgur.com/hTbi6bC.png?1)  
 
 The refactored code took 0.51 seconds for 2017 and 0.50 for 2018.
-![Imgur](https://i.imgur.com/rtvfaqD.png) ![Imgur](https://i.imgur.com/9FysDsb.png)  
+![Imgur](https://i.imgur.com/2SfIkww.png) ![Imgur](https://i.imgur.com/II6XteJ.png)
